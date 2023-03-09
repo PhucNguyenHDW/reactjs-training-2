@@ -1,0 +1,21 @@
+.title-dark {
+  color: white
+}
+
+.title-light {
+  color: black;
+}
+
+.light-theme {
+  color: black;
+  background: white;
+}
+.dark-theme {
+  color: white;
+  background: black;
+}
+.theme-container {
+  border-radius: 20px;
+  text-align: center;
+  margin-top: 20px;
+}
