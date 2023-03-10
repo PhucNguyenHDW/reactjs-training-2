@@ -1,10 +1,8 @@
-import React from 'react';
-import {
-  createBrowserRouter,
-} from "react-router-dom";
-import App from './../App';
+import React from 'react'
+import { createBrowserRouter } from 'react-router-dom'
+import App from './../App'
 // learn class/function component
-import BaseComponent from '../components/HelloWorldComponents/BaseComponent';
+import BaseComponent from '../components/HelloWorldComponents/BaseComponent'
 // this page is use when router meet error
 import Page404 from './../components/UtilityPage/Page404'
 // learn context in component
@@ -12,36 +10,36 @@ import ContextComponent from './../components/ContextComponents/ContextComponent
 // learn auth with context
 import Login from '../components/Auth/Login'
 // learn useEffect hook
-import UseEffectComponent from '../components/UseEffectComponent/UseEffectComponent';
+import UseEffectComponent from '../components/UseEffectComponent/UseEffectComponent'
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: '/',
     element: <App />,
     errorElement: <Page404 />,
     children: [
       {
-        path: "components",
+        path: 'components',
         element: <BaseComponent />,
-        errorElement: <Page404 />,
+        errorElement: <Page404 />
       },
       {
-        path: "/context",
+        path: 'context',
         element: <ContextComponent />,
-        errorElement: <Page404 />,
+        errorElement: <Page404 />
       },
       {
-        path: "/use-effect-learning",
+        path: '/use-effect-learning',
         element: <UseEffectComponent />,
-        errorElement: <Page404 />,
-      },
-    ],
-	},
-	{
-    path: "/login",
+        errorElement: <Page404 />
+      }
+    ]
+  },
+  {
+    path: '/login',
     element: <Login />,
-		errorElement: <Page404 />,
+    errorElement: <Page404 />
   }
-]);
+])
 
 export default router
