@@ -26,14 +26,17 @@ function App() {
       <Button className="mr-1p" onClick={() => navigate('/context')}>
         Context
       </Button>
-      <Button className="mr-1p" onClick={() => navigate('/login')}>
+      {/* <Button className="mr-1p" onClick={() => navigate('/login')}>
         Login
-      </Button>
+      </Button> */}
       <Button
         className="mr-1p"
         onClick={() => navigate('/use-effect-learning')}
       >
         Use Effect Hook
+      </Button>
+      <Button className="mr-1p" onClick={() => navigate('/todo-app')}>
+        Todo App
       </Button>
       <Outlet></Outlet>
     </div>
