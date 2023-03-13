@@ -11,6 +11,8 @@ import ContextComponent from './../components/ContextComponents/ContextComponent
 import Login from '../components/Auth/Login'
 // learn useEffect hook
 import UseEffectComponent from '../components/UseEffectComponent/UseEffectComponent'
+// todo app
+import TodoApp from '../components/TodoApp/TodoApp'
 
 const router = createBrowserRouter([
   {
@@ -31,6 +33,11 @@ const router = createBrowserRouter([
       {
         path: '/use-effect-learning',
         element: <UseEffectComponent />,
+        errorElement: <Page404 />
+      },
+      {
+        path: '/todo-app',
+        element: <TodoApp />,
         errorElement: <Page404 />
       }
     ]
