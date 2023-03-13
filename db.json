@@ -1,19 +1,9 @@
 {
     "posts": [
         {
-            "id": 1,
-            "title": "json-server",
-            "author": "typicode"
+            "id": "5e968437-89b1-430c-a6ff-e40fbc45c1c4",
+            "text": "Hello World",
+            "isDone": false
         }
-    ],
-    "comments": [
-        {
-            "id": 1,
-            "body": "some comment",
-            "postId": 1
-        }
-    ],
-    "profile": {
-        "name": "typicode"
-    }
+    ]
 }

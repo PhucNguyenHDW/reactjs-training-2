@@ -1,3 +1,22 @@
 .container {
-    color: white
+  color: white;
+}
+
+/* margin css here*/
+.mr-0d5p {
+  margin-right: 0.5%;
+}
+.mb-1p {
+  margin-bottom: 1%;
+}
+
+/* icon css here  */
+.btn-fa-icon {
+  margin-bottom: 0.2rem;
+}
+
+/* text note css here */
+.note-text {
+  margin-right: 2%;
+  margin-bottom: 0.5%;
 }

@@ -1,10 +1,24 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './TodoApp.css'
 import { Button } from 'react-bootstrap'
+import axios from 'axios'
+import { v4 as uuidv4 } from 'uuid'
+import {
+  FaWindowClose,
+  FaCheck,
+  FaDotCircle,
+  FaPlusCircle
+} from 'react-icons/fa'
 
 const TodoApp = () => {
   const [input, setInput] = useState('')
   const [task, setTask] = useState([])
+
+  useEffect(() => {
+    axios.get('http://localhost:4000/posts').then(({ data }) => {
+      setTask(data)
+    })
+  }, [])
 
   const add = () => {
     if (input === '') return
@@ -12,7 +26,8 @@ const TodoApp = () => {
       ...task,
       {
         text: input,
-        isRead: false
+        isDone: false,
+        id: uuidv4()
       }
     ])
     setInput('')
@@ -26,43 +41,55 @@ const TodoApp = () => {
     const obj = {
       ...task[index]
     }
-    obj.isRead = !obj.isRead
+    obj.isDone = !obj.isDone
     setTask([...task.slice(0, index), obj].concat(task.slice(index + 1)))
   }
 
   return (
     <div className="container">
       <h1 className="heading">TaskMaster</h1>
-      <div className="d-flex align-items-center">
+      <div className="d-flex align-items-center mb-1p">
         <input
           placeholder="New Task?"
-          className="in-text"
+          className="in-text mr-0d5p"
           onChange={(e) => setInput(e.target.value)}
           value={input}
         />
         <Button size="sm" variant="primary" onClick={add}>
-          Add
+          <FaPlusCircle className="btn-fa-icon"></FaPlusCircle>
         </Button>
       </div>
       <div>
         {task.map((item, i) => (
           <div key={i}>
-            <span
-              className="span-map"
-              style={{ textDecoration: item.isRead && 'line-through' }}
+            <Button
+              variant={item.isDone === 'secondary' ? 'primary' : 'primary'}
+              onClick={() => toggleChecked(i)}
+              size="sm"
+              className="mr-0d5p"
+            >
+              {item.isDone ? (
+                <FaCheck className="btn-fa-icon"></FaCheck>
+              ) : (
+                <FaDotCircle className="btn-fa-icon"></FaDotCircle>
+              )}
+            </Button>
+            <Button
+              className="mr-0d5p"
+              onClick={() => remove(i)}
+              size="sm"
+              variant="warning"
+            >
+              <FaWindowClose className="btn-fa-icon" />
+            </Button>
+            <Button
+              className="note-text"
+              style={{ textDecoration: item.isDone && 'line-through' }}
+              size="sm"
+              variant={item.isDone ? 'secondary' : 'light'}
             >
               {item.text}
-            </span>
-            <input
-              className="check"
-              type="checkbox"
-              checked={item.isRead}
-              onClick={() => toggleChecked(i)}
-              readOnly
-            />
-            <button className="delete-btn" onClick={() => remove(i)}>
-              Delete
-            </button>
+            </Button>
           </div>
         ))}
       </div>
