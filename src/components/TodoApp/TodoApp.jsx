@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import {
+  getTodos,
+  addTodo,
+  deleteTodo,
+  updateTodo
+} from '../../store/actions/todoAction.ts'
 import './TodoApp.css'
 import { Button } from 'react-bootstrap'
-import axios from 'axios'
 import { v4 as uuidv4 } from 'uuid'
 import {
   FaWindowClose,
@@ -12,37 +18,57 @@ import {
 
 const TodoApp = () => {
   const [input, setInput] = useState('')
-  const [task, setTask] = useState([])
+  // const [task, setTask] = useState([])
 
+  // useEffect(() => {
+  //   axios.get('http://localhost:4000/posts').then(({ data }) => {
+  //     setTask(data)
+  //   })
+  // }, [])
+
+  const dispatch = useDispatch()
+  const todoData = useSelector((state) => state.todos)
+  const { todos } = todoData
   useEffect(() => {
-    axios.get('http://localhost:4000/posts').then(({ data }) => {
-      setTask(data)
-    })
+    dispatch(getTodos())
   }, [])
 
-  const add = () => {
-    if (input === '') return
-    setTask([
-      ...task,
-      {
+  const add = async () => {
+    if (!input) return
+    // setTask([
+    //   ...task,
+    //   {
+    //     text: input,
+    //     isDone: false,
+    //     id: uuidv4()
+    //   }
+    // ])
+    await dispatch(
+      addTodo({
         text: input,
         isDone: false,
         id: uuidv4()
-      }
-    ])
+      })
+    )
+    await dispatch(getTodos())
     setInput('')
   }
 
-  const remove = (index) => {
-    setTask(task.filter((_item, i) => i !== index))
+  const remove = async (id) => {
+    // setTask(task.filter((_item, i) => i !== index))
+    await dispatch(deleteTodo(id))
+    await dispatch(getTodos())
   }
 
-  const toggleChecked = (index) => {
-    const obj = {
-      ...task[index]
-    }
-    obj.isDone = !obj.isDone
-    setTask([...task.slice(0, index), obj].concat(task.slice(index + 1)))
+  const toggleChecked = async ({ id, isDone }) => {
+    let updatedIsDone = !isDone
+    // const obj = {
+    //   ...task[index]
+    // }
+    // obj.isDone = !obj.isDone
+    // setTask([...task.slice(0, index), obj].concat(task.slice(index + 1)))
+    await dispatch(updateTodo({ id, isDone: updatedIsDone }))
+    await dispatch(getTodos())
   }
 
   return (
@@ -60,38 +86,42 @@ const TodoApp = () => {
         </Button>
       </div>
       <div>
-        {task.map((item, i) => (
-          <div key={i}>
-            <Button
-              variant={item.isDone === 'secondary' ? 'primary' : 'primary'}
-              onClick={() => toggleChecked(i)}
-              size="sm"
-              className="mr-0d5p"
-            >
-              {item.isDone ? (
-                <FaCheck className="btn-fa-icon"></FaCheck>
-              ) : (
-                <FaDotCircle className="btn-fa-icon"></FaDotCircle>
-              )}
-            </Button>
-            <Button
-              className="mr-0d5p"
-              onClick={() => remove(i)}
-              size="sm"
-              variant="warning"
-            >
-              <FaWindowClose className="btn-fa-icon" />
-            </Button>
-            <Button
-              className="note-text"
-              style={{ textDecoration: item.isDone && 'line-through' }}
-              size="sm"
-              variant={item.isDone ? 'secondary' : 'light'}
-            >
-              {item.text}
-            </Button>
-          </div>
-        ))}
+        {todos &&
+          todos.map((item, i) => (
+            <div className="d-flex align-items-start" key={i}>
+              <Button
+                className="mr-0d5p"
+                onClick={() => remove(item.id)}
+                size="sm"
+                variant="warning"
+              >
+                <FaWindowClose className="btn-fa-icon" />
+              </Button>
+              <Button
+                variant={item.isDone === 'secondary' ? 'primary' : 'primary'}
+                onClick={() =>
+                  toggleChecked({ id: item.id, isDone: item.isDone })
+                }
+                size="sm"
+                className="mr-0d5p"
+              >
+                {item.isDone ? (
+                  <FaCheck className="btn-fa-icon"></FaCheck>
+                ) : (
+                  <FaDotCircle className="btn-fa-icon"></FaDotCircle>
+                )}
+              </Button>
+
+              <Button
+                className="note-text"
+                style={{ textDecoration: item.isDone && 'line-through' }}
+                size="sm"
+                variant={item.isDone ? 'secondary' : 'light'}
+              >
+                {item.text}
+              </Button>
+            </div>
+          ))}
       </div>
     </div>
   )
