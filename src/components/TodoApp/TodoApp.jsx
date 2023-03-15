@@ -7,42 +7,39 @@ import {
   updateTodo
 } from '../../store/actions/todoAction.ts'
 import './TodoApp.css'
-import { Button } from 'react-bootstrap'
+import {
+  Button,
+  Form,
+  InputGroup,
+  ButtonGroup,
+  Row,
+  Col,
+  Container
+} from 'react-bootstrap'
 import { v4 as uuidv4 } from 'uuid'
 import {
   FaWindowClose,
   FaCheck,
   FaDotCircle,
-  FaPlusCircle
+  FaPlusCircle,
+  FaSearch
 } from 'react-icons/fa'
 
 const TodoApp = () => {
   const [input, setInput] = useState('')
-  // const [task, setTask] = useState([])
-
-  // useEffect(() => {
-  //   axios.get('http://localhost:4000/posts').then(({ data }) => {
-  //     setTask(data)
-  //   })
-  // }, [])
+  const [search, setSearch] = useState('')
+  const [page] = useState(1)
+  const [limit] = useState(20)
 
   const dispatch = useDispatch()
   const todoData = useSelector((state) => state.todos)
   const { todos } = todoData
   useEffect(() => {
-    dispatch(getTodos())
+    searchNote()
   }, [])
 
   const add = async () => {
     if (!input) return
-    // setTask([
-    //   ...task,
-    //   {
-    //     text: input,
-    //     isDone: false,
-    //     id: uuidv4()
-    //   }
-    // ])
     await dispatch(
       addTodo({
         text: input,
@@ -50,78 +47,155 @@ const TodoApp = () => {
         id: uuidv4()
       })
     )
-    await dispatch(getTodos())
+    await dispatch(
+      getTodos({
+        search,
+        page,
+        limit
+      })
+    )
     setInput('')
   }
 
   const remove = async (id) => {
-    // setTask(task.filter((_item, i) => i !== index))
     await dispatch(deleteTodo(id))
-    await dispatch(getTodos())
+    await dispatch(
+      getTodos({
+        search,
+        page,
+        limit
+      })
+    )
   }
 
   const toggleChecked = async ({ id, isDone }) => {
     let updatedIsDone = !isDone
-    // const obj = {
-    //   ...task[index]
-    // }
-    // obj.isDone = !obj.isDone
-    // setTask([...task.slice(0, index), obj].concat(task.slice(index + 1)))
     await dispatch(updateTodo({ id, isDone: updatedIsDone }))
-    await dispatch(getTodos())
+    await dispatch(
+      getTodos({
+        search,
+        page,
+        limit
+      })
+    )
+  }
+
+  const searchNote = async () => {
+    await dispatch(
+      getTodos({
+        search,
+        page,
+        limit
+      })
+    )
   }
 
   return (
     <div className="container">
-      <h1 className="heading">TaskMaster</h1>
-      <div className="d-flex align-items-center mb-1p">
-        <input
-          placeholder="New Task?"
-          className="in-text mr-0d5p"
-          onChange={(e) => setInput(e.target.value)}
-          value={input}
-        />
-        <Button size="sm" variant="primary" onClick={add}>
-          <FaPlusCircle className="btn-fa-icon"></FaPlusCircle>
-        </Button>
-      </div>
-      <div>
-        {todos &&
-          todos.map((item, i) => (
-            <div className="d-flex align-items-start" key={i}>
-              <Button
-                className="mr-0d5p"
-                onClick={() => remove(item.id)}
-                size="sm"
-                variant="warning"
-              >
-                <FaWindowClose className="btn-fa-icon" />
-              </Button>
-              <Button
-                variant={item.isDone === 'secondary' ? 'primary' : 'primary'}
-                onClick={() =>
-                  toggleChecked({ id: item.id, isDone: item.isDone })
-                }
-                size="sm"
-                className="mr-0d5p"
-              >
-                {item.isDone ? (
-                  <FaCheck className="btn-fa-icon"></FaCheck>
-                ) : (
-                  <FaDotCircle className="btn-fa-icon"></FaDotCircle>
-                )}
-              </Button>
+      <h1 className="text-center">Note</h1>
+      <div id="add-note-input" className="mb-3">
+        <Container>
+          <Row>
+            {/* add note part */}
+            <Col md={8} lg={8}>
+              <InputGroup className="" size="sm">
+                <Form.Control
+                  type="text"
+                  placeholder="Input your note here"
+                  onChange={(e) => setInput(e.target.value)}
+                  value={input}
+                />
 
-              <Button
+                <Button size="sm" variant="primary" onClick={() => add()}>
+                  <FaPlusCircle className="btn-fa-icon"></FaPlusCircle>
+                  <span> Add</span>
+                </Button>
+              </InputGroup>
+              {/* {errors && errors.input && errors.input.type === 'required' && (
+                <Form.Text className="text-danger">
+                  {errors.input.message}
+                </Form.Text>
+              )} */}
+            </Col>
+            {/* search part */}
+            <Col md={4} lg={4}>
+              <InputGroup className="" size="sm">
+                <Form.Control
+                  type="text"
+                  placeholder="Search"
+                  onChange={(e) => setSearch(e.target.value)}
+                  value={search}
+                />
+
+                <Button
+                  size="sm"
+                  variant="primary"
+                  onClick={() => searchNote()}
+                >
+                  <FaSearch className="btn-fa-icon"></FaSearch>
+                  <span> Search</span>
+                </Button>
+              </InputGroup>
+            </Col>
+          </Row>
+        </Container>
+      </div>
+      <div id="note-items">
+        <Container>
+          {todos &&
+            todos.map((item, i) => (
+              <div className="note-container" key={i}>
+                <ButtonGroup>
+                  <Button
+                    id="delete-btn"
+                    className="mr-0d5p"
+                    onClick={() => remove(item.id)}
+                    size="sm"
+                    variant="warning"
+                  >
+                    <FaWindowClose className="btn-fa-icon" />
+                  </Button>
+                  <Button
+                    id="done-btn"
+                    variant={
+                      item.isDone === 'secondary' ? 'primary' : 'primary'
+                    }
+                    onClick={() =>
+                      toggleChecked({ id: item.id, isDone: item.isDone })
+                    }
+                    size="sm"
+                    className="mr-0d5p"
+                  >
+                    {item.isDone ? (
+                      <FaCheck className="btn-fa-icon"></FaCheck>
+                    ) : (
+                      <FaDotCircle className="btn-fa-icon"></FaDotCircle>
+                    )}
+                  </Button>
+                </ButtonGroup>
+                <InputGroup className="ml-1p" size="sm">
+                  <Form.Control
+                    type="text"
+                    placeholder="Some note used to be here :>"
+                    value={item.text}
+                    disabled
+                    style={{
+                      textDecoration: item.isDone && 'line-through',
+                      background: item.isDone && '#dddddd'
+                    }}
+                  />
+                </InputGroup>
+                {/* <Button
                 className="note-text"
                 style={{ textDecoration: item.isDone && 'line-through' }}
                 size="sm"
                 variant={item.isDone ? 'secondary' : 'light'}
               >
                 {item.text}
-              </Button>
-            </div>
-          ))}
+              </Button> */}
+              </div>
+            ))}
+        </Container>
       </div>
     </div>
   )
