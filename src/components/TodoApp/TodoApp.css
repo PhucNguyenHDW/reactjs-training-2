@@ -9,6 +9,9 @@
 .mb-1p {
   margin-bottom: 1%;
 }
+.ml-1p {
+  margin-left: 1%;
+}
 
 /* icon css here  */
 .btn-fa-icon {
@@ -19,4 +22,13 @@
 .note-text {
   margin-right: 2%;
   margin-bottom: 0.5%;
+}
+
+.note-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 1%;
 }

@@ -25,7 +25,6 @@ interface actionI {
 export default function (state = initialState, action: actionI) {
   switch (action.type) {
     case GET_TODO:
-      console.log('state getTodo', state)
       return {
         ...state,
         todos: action.payload,
