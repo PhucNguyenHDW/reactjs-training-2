@@ -38,6 +38,12 @@ function App() {
       <Button className="mr-1p" onClick={() => navigate('/todo-app')}>
         Todo App
       </Button>
+      <Button
+        className="mr-1p"
+        onClick={() => navigate('/pas-internal/landing-page')}
+      >
+        PAS
+      </Button>
       <Outlet></Outlet>
     </div>
   )

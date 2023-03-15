@@ -1,0 +1,55 @@
+/* nav start */
+.header-nav {
+  padding: 2rem;
+  min-height: 73px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-around;
+  /* note */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  /* note */
+}
+.pas-logo {
+  width: 152px;
+  height: 69px;
+}
+a {
+  color: #212326 !important;
+}
+a:active {
+  color: #e25052 !important;
+  text-decoration: underline !important;
+}
+/* nav end */
+
+/* below nav start */
+.below-nav {
+  /* note */
+  padding-top: 10rem;
+  /* note  */
+}
+
+/* banner start ------  */
+.banner-right-content {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.banner-container {
+  margin-top: 6rem;
+} /* banner end ------  */
+
+/* journey start ------  */
+.journey-div {
+  background-color: #212326;
+  color: white;
+}
+.journey-text-div {
+  padding-top: 3rem;
+}
+/* journey end ------  */
+
+/* below nav end */
