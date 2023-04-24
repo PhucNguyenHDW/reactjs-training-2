@@ -1,0 +1,50 @@
+.text-right {
+  text-align: right;
+}
+
+.card-avatar-circle {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+}
+
+.mb-1p {
+  margin-bottom: 1%;
+}
+.mb-2p {
+  margin-bottom: 2%;
+}
+
+.double-quote-style {
+  color: #b4b4b4;
+  font-size: 2rem;
+}
+
+.avatar-name {
+  font-size: 21px;
+  color: #2b324b;
+}
+
+.avatar-position {
+  font-size: 13px;
+  color: '#2B324B';
+}
+
+.card-description-div {
+  height: 12rem;
+}
+
+.card-avatar-div {
+  padding-bottom: 3rem;
+}
+
+.base-btn {
+  background-color: rgb(118, 165, 215);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: auto;
+  width: 100%;
+  max-width: 184px;
+  padding: 12px 20px;
+}

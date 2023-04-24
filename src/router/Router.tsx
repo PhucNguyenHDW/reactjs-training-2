@@ -13,6 +13,10 @@ import Login from '../components/Auth/Login'
 import UseEffectComponent from '../components/UseEffectComponent/UseEffectComponent'
 // todo app
 import TodoApp from '../components/TodoApp/TodoApp'
+// pas internal
+import PASContainer from '../components/PasInternal/Container/PASContainer'
+// pas internal children
+import LandingPage from '../components/PasInternal/LandingPage/LandingPage'
 
 const router = createBrowserRouter([
   {
@@ -46,6 +50,43 @@ const router = createBrowserRouter([
     path: '/login',
     element: <Login />,
     errorElement: <Page404 />
+  },
+  {
+    path: '/pas-internal',
+    element: <PASContainer />,
+    errorElement: <Page404 />,
+    children: [
+      {
+        path: 'landing-page',
+        element: <LandingPage />,
+        errorElement: <Page404 />
+      },
+      {
+        path: 'advisors',
+        element: <LandingPage />,
+        errorElement: <Page404 />
+      },
+      {
+        path: 'our-platform',
+        element: <LandingPage />,
+        errorElement: <Page404 />
+      },
+      {
+        path: 'about-us',
+        element: <LandingPage />,
+        errorElement: <Page404 />
+      },
+      {
+        path: 'advisor-resources',
+        element: <LandingPage />,
+        errorElement: <Page404 />
+      },
+      {
+        path: 'contact-us',
+        element: <LandingPage />,
+        errorElement: <Page404 />
+      }
+    ]
   }
 ])
 
